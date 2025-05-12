@@ -115,7 +115,8 @@ module.exports = {
 #### 安装 lint-staged
 
 由于检查代码命令是对整个项目代码有效，有时候我们只想对自己改动的代码进行检查，而忽略项目其他代码。我们可以使用lint-staged，它可以让我们执行检查命令只对 git 缓存区的文件有效。
-npm i lint-staged -D
+
+- npm i lint-staged -D
 
 ```package.json
   "scripts": {
@@ -137,7 +138,8 @@ npm i lint-staged -D
 #### 安装 husky
 
 由于前面都是需要手动操作的，husky 可以让我们在 git 提交的时候自动执行命令。
-npm i husky -D
+
+- npm i husky -D
 
 ```
   "scripts": {
@@ -149,11 +151,73 @@ npm i husky -D
 
 #### 重置 css
 
-npm i normalize.css 并引入
+- npm i normalize.css 并引入
 
-#### 引入 css module less
+#### css module
 
-npm i less -D
+- npm i less -D
+- 在 vite.config.ts 中配置一下 css
+
+```
+const CSS_MODULE_LOCAL_IDENT_NAME = '[local]_[hash:base64:5]'
+
+{
+  ...
+  css: {
+    preprocessorOptions: {
+      less: {
+        modifyVars: {
+          // 如需自定义组件其他 token, 在此处配置
+        },
+      }
+    },
+    modules: {
+      generateScopedName: generateScopedNameFactory(CSS_MODULE_LOCAL_IDENT_NAME), // 自定义生成的类名
+      localsConvention: 'camelCase',
+    },
+  }
+}
+```
+
+- 如果想要更方便的引入类名，而不是通过【style.\*\*\*】的方式写法可以使用一个插件 babel-plugin-react-css-modules
+
+#### 配置 babel-plugin-react-css-modules 插件，使用 styleName 引入样式
+
+- npm i babel-plugin-react-css-modules postcss-less -D
+- 然后再 vite.config.ts 里配置一下插件
+- 如果你使用的是 vite，你需要使用 @dr.pogodin/babel-plugin-react-css-modules 插件，具体可以参考 https://github.com/vitejs/vite/discussions/2307
+- 这里还需要引入 @types/react-css-modules 类型文件，否则 html 元素上会因为没有 styleName 属性而报错
+
+```
+import { generateScopedNameFactory } from '@dr.pogodin/babel-plugin-react-css-modules/utils';
+
+defineConfig({
+  plugins: [
+      react({
+        babel: {
+          plugins: [
+            [
+              '@dr.pogodin/babel-plugin-react-css-modules',
+              {
+                generateScopedName: generateScopedNameFactory(CSS_MODULE_LOCAL_IDENT_NAME),
+                attributeNames: { activeStyleName: 'activeClassName' },
+                filetypes: {
+                  '.less': {
+                    syntax: 'postcss-less',
+                  },
+                },
+                webpackHotModuleReloading: true,
+                exclude: 'node_modules',
+                handleMissingStyleName: 'warn',
+              },
+            ],
+          ],
+        },
+      }),
+  ],
+})
+
+```
 
 ### 问题
 

@@ -13,6 +13,7 @@
     "lint:css": "stylelint \"./src/**/*.{css,less}\" --fix"
   },
   "dependencies": {
+    "@types/react-css-modules": "^4.6.8",
     "antd": "^5.25.1",
     "normalize.css": "^8.0.1",
     "react": "^19.1.0",
@@ -20,11 +21,13 @@
     "react-router-dom": "^7.6.0"
   },
   "devDependencies": {
+    "@dr.pogodin/babel-plugin-react-css-modules": "^6.13.5",
     "@eslint/js": "^9.25.0",
     "@types/node": "^22.15.17",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "@vitejs/plugin-react": "^4.4.1",
+    "babel-plugin-react-css-modules": "^5.2.6",
     "eslint": "^9.25.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.4.0",
@@ -34,6 +37,7 @@
     "husky": "^9.1.7",
     "less": "^4.3.0",
     "lint-staged": "^16.0.0",
+    "postcss-less": "^6.0.0",
     "prettier": "^3.5.3",
     "stylelint": "^14.16.1",
     "stylelint-config-prettier": "^9.0.5",
