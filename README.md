@@ -145,7 +145,11 @@ npm i husky -D
   }
 ```
 
-然后执行这条命令yarn prepare，husky 执行初始化，可以发现我们的项目目录多了.husky文件夹，代表初始化成功。
+然后执行这条命令yarn prepare，husky 执行初始化，可以发现我们的项目目录多了.husky文件夹，代表初始化成功。然后在 pre-commit 文件下添加 npx lint-staged 命令
+
+#### 重置 css
+
+npm i normalize.css 并引入
 
 #### 引入 css module less
 
