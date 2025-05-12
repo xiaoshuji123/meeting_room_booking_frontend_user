@@ -112,6 +112,47 @@ module.exports = {
 }
 ```
 
+#### 安装 lint-staged
+
+由于检查代码命令是对整个项目代码有效，有时候我们只想对自己改动的代码进行检查，而忽略项目其他代码。我们可以使用lint-staged，它可以让我们执行检查命令只对 git 缓存区的文件有效。
+npm i lint-staged -D
+
+```package.json
+  "scripts": {
+    "lint-staged": "lint-staged"
+  },
+  "lint-staged": {
+		"src/**/*.{ts,tsx,json,css,less}": [
+			"prettier --write"
+		],
+		"src/**/*.{css,less}": [
+			"stylelint --fix"
+		],
+		"src/**/*.{ts,tsx}": [
+			"eslint --fix"
+		]
+	},
+```
+
+#### 安装 husky
+
+由于前面都是需要手动操作的，husky 可以让我们在 git 提交的时候自动执行命令。
+npm i husky -D
+
+```
+  "scripts": {
+    "prepare": "husky install"
+  }
+```
+
+然后执行这条命令yarn prepare，husky 执行初始化，可以发现我们的项目目录多了.husky文件夹，代表初始化成功。
+
 #### 引入 css module less
 
 npm i less -D
+
+### 问题
+
+#### import path from "path" -> 找不到模块“path”或其相应的类型声明
+
+npm i @types/node -D
