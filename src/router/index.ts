@@ -1,16 +1,24 @@
-import { lazy } from "react";
-import { createBrowserRouter, type RouteObject } from "react-router-dom";
-const Login = lazy(() => import("src/views/login"));
-const NotFound = lazy(() => import("src/views/not-found"));
-const router: RouteObject[] = [
+import { lazy } from 'react';
+import type { ComponentType } from 'react';
+
+const Login = lazy(() => import('src/views/login'));
+const NotFound = lazy(() => import('src/views/not-found'));
+
+export type RouterItem = {
+  path: string;
+  Component: ComponentType;
+  children?: RouterItem[];
+};
+
+const ROUTERS: RouterItem[] = [
   {
-    path: "/login",
+    path: '/login',
     Component: Login,
   },
   {
-    path: "*",
+    path: '*',
     Component: NotFound,
   },
 ];
 
-export default createBrowserRouter(router);
+export default ROUTERS;

@@ -8,7 +8,7 @@ import { generateScopedNameFactory } from "@dr.pogodin/babel-plugin-react-css-mo
 export default defineConfig({
   server: {
     port: 3010,
-    open: true,
+    open: false,
   },
   resolve: {
     alias: {

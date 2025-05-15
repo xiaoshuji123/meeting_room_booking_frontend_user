@@ -219,6 +219,10 @@ defineConfig({
 
 ```
 
+#### react-router
+
+- 该项目的路由是通过声明式模式来配置的，利用传统的 Routes Route 组件来配置，这里组件拆分的比较细，便于处理异常情况
+
 ### 问题
 
 #### import path from "path" -> 找不到模块“path”或其相应的类型声明
