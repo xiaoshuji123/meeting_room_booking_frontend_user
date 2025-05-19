@@ -228,3 +228,11 @@ defineConfig({
 #### import path from "path" -> 找不到模块“path”或其相应的类型声明
 
 npm i @types/node -D
+
+#### 引入类型文件时，需要加上前缀 type 比较麻烦
+
+```
+compilerOptions: {
+  "verbatimModuleSyntax": false,
+}
+```

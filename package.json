@@ -13,11 +13,13 @@
     "lint:css": "stylelint \"./src/**/*.{css,less}\" --fix"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.8.2",
     "@types/react-css-modules": "^4.6.8",
     "antd": "^5.25.1",
     "normalize.css": "^8.0.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-redux": "^9.2.0",
     "react-router-dom": "^7.6.0"
   },
   "devDependencies": {
