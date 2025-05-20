@@ -1,8 +1,11 @@
-import type { JSX } from "react";
-import "./index.module.less";
-
-const Login = (): JSX.Element => {
-  return <div styleName="login-wrapper">Login</div>;
+import { Layout } from 'antd';
+const { Content } = Layout;
+const Login = (): React.ReactNode => {
+  return (
+    <Layout>
+      <Content>Content</Content>
+    </Layout>
+  );
 };
 
 export default Login;
