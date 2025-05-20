@@ -1,5 +1,12 @@
 import { apiSlice } from '..';
-import { LoginRequest, LoginResponse, RegisterRequest, updatePasswordRequest, updateUserInfoRequest, UserInfoResponse } from './type';
+import {
+  LoginRequest,
+  LoginResponse,
+  RegisterRequest,
+  updatePasswordRequest,
+  updateUserInfoRequest,
+  UserInfoResponse,
+} from './type';
 const userApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     // query 是用于获取数据
@@ -76,4 +83,15 @@ const userApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useLoginMutation } = userApi;
+export const {
+  useGetUserInfoQuery,
+  useRegisterCaptchaQuery,
+  useUpdatePasswordCaptchaQuery,
+  useUpdateUserInfoCaptchaQuery,
+
+  useLoginMutation,
+  useRegisterMutation,
+  useRefreshTokenMutation,
+  useUpdatePasswordMutation,
+  useUpdateUserInfoMutation,
+} = userApi;

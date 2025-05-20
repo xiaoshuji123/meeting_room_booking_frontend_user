@@ -1,7 +1,7 @@
 import { RouterProvider, Routes, Route, Navigate, createBrowserRouter } from 'react-router-dom';
 import ROUTERS, { type RouterItem } from './router';
 import { Suspense } from 'react';
-import { Spin } from 'antd';
+import { ConfigProvider, Spin } from 'antd';
 
 const WithSubRoute = ({ route }: { route: RouterItem }) => {
   return (
@@ -42,7 +42,19 @@ const router = createBrowserRouter([{ path: '*', element: <Router /> }], {
 });
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <ConfigProvider
+      theme={{
+        components: {
+          Layout: {
+            bodyBg: '#ffffff',
+          },
+        },
+      }}
+    >
+      <RouterProvider router={router} />
+    </ConfigProvider>
+  );
 }
 
 export default App;
