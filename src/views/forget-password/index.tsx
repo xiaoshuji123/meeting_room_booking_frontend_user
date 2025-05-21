@@ -1,7 +1,8 @@
-import { Button, Col, Form, Input, Row } from 'antd';
-import { useUpdatePasswordMutation } from 'src/service/user';
+import { Button, Form, Input, message } from 'antd';
+import { useLazyUpdatePasswordCaptchaQuery, useUpdatePasswordMutation } from 'src/service/user';
 import { LoginLayout } from '../login';
-
+import Captcha from 'src/components/captcha';
+import { useNavigate } from 'react-router-dom';
 type ForgetPasswordForm = {
   email: string;
   password: string;
@@ -10,8 +11,11 @@ type ForgetPasswordForm = {
 };
 
 const Login = (): React.ReactNode => {
+  const navigate = useNavigate();
   const [form] = Form.useForm<ForgetPasswordForm>();
   const [forgetPassword, { isLoading }] = useUpdatePasswordMutation();
+  const [getUpdatePasswordCaptcha, { isLoading: isUpdatePasswordCaptchaLoading }] =
+    useLazyUpdatePasswordCaptchaQuery();
   const onFinish = (values: ForgetPasswordForm) => {
     forgetPassword({
       email: values.email,
@@ -19,10 +23,28 @@ const Login = (): React.ReactNode => {
       new_password: values.password,
     })
       .unwrap()
-      .then((res) => {
-        console.log(res);
+      .then(() => {
+        message.success('密码修改成功');
+        setTimeout(() => {
+          navigate('/login');
+        }, 1000);
       });
   };
+
+  const onSend = async () => {
+    try {
+      const { email } = await form.validateFields(['email']);
+      return getUpdatePasswordCaptcha({ email })
+        .unwrap()
+        .then(() => {
+          message.success('验证码发送成功');
+        });
+    } catch (error) {
+      console.log(error);
+      return Promise.reject('验证码发送失败');
+    }
+  };
+
   return (
     <LoginLayout>
       <Form form={form} labelCol={{ span: 5 }} style={{ marginTop: '40px' }} onFinish={onFinish}>
@@ -39,7 +61,17 @@ const Login = (): React.ReactNode => {
         <Form.Item
           name="confirm_password"
           label="确认密码"
-          rules={[{ required: true, message: '请输入确认密码' }]}
+          rules={[
+            { required: true, message: '请输入确认密码' },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue('password') === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(new Error('两次输入的密码不一致'));
+              },
+            }),
+          ]}
         >
           <Input.Password size="large" placeholder="确认密码" />
         </Form.Item>
@@ -48,16 +80,7 @@ const Login = (): React.ReactNode => {
           label="验证码"
           rules={[{ required: true, message: '请输入验证码' }]}
         >
-          <Row gutter={8}>
-            <Col span={15}>
-              <Input type="number" size="large" maxLength={6} />
-            </Col>
-            <Col span={6}>
-              <Button size="large" type="primary">
-                发送验证码
-              </Button>
-            </Col>
-          </Row>
+          <Captcha onSend={onSend} isLoading={isUpdatePasswordCaptchaLoading} />
         </Form.Item>
         <Form.Item>
           <Button

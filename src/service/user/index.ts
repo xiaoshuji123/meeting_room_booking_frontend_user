@@ -85,9 +85,9 @@ const userApi = apiSlice.injectEndpoints({
 
 export const {
   useGetUserInfoQuery,
-  useRegisterCaptchaQuery,
-  useUpdatePasswordCaptchaQuery,
-  useUpdateUserInfoCaptchaQuery,
+  useLazyRegisterCaptchaQuery,
+  useLazyUpdatePasswordCaptchaQuery,
+  useLazyUpdateUserInfoCaptchaQuery,
 
   useLoginMutation,
   useRegisterMutation,

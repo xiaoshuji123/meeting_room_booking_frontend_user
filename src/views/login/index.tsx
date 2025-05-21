@@ -1,6 +1,7 @@
 import { Button, Flex, Form, Input, Layout } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { useLoginMutation } from 'src/service/user';
+import { localStorage } from 'src/utils/storage';
 
 type LoginForm = {
   username: string;
@@ -25,7 +26,8 @@ const Login = (): React.ReactNode => {
     login(values)
       .unwrap()
       .then((res) => {
-        console.log(res);
+        localStorage.setItem('accessToken', res.accessToken);
+        localStorage.setItem('refreshToken', res.refreshToken);
       });
   };
   return (
