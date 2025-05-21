@@ -13,6 +13,7 @@
     "lint:css": "stylelint \"./src/**/*.{css,less}\" --fix"
   },
   "dependencies": {
+    "@ant-design/v5-patch-for-react-19": "^1.0.3",
     "@reduxjs/toolkit": "^2.8.2",
     "@types/react-css-modules": "^4.6.8",
     "antd": "^5.25.1",

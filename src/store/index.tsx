@@ -2,12 +2,15 @@ import { configureStore } from '@reduxjs/toolkit';
 import { apiSlice } from '../service';
 import globalReducer from './global';
 import { useDispatch, useSelector } from 'react-redux';
+import { rtkQueryErrorLogger } from './middleware';
 
 export const store = configureStore({
   reducer: {
     global: globalReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(apiSlice.middleware, rtkQueryErrorLogger),
 });
 
 // 可以参考 https://redux-toolkit.js.org/tutorials/typescript
