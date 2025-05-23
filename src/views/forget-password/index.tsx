@@ -1,6 +1,5 @@
 import { Button, Form, Input, message } from 'antd';
 import { useLazyUpdatePasswordCaptchaQuery, useUpdatePasswordMutation } from 'src/service/user';
-import { LoginLayout } from '../login';
 import Captcha from 'src/components/captcha';
 import { useNavigate } from 'react-router-dom';
 type ForgetPasswordForm = {
@@ -46,55 +45,53 @@ const Login = (): React.ReactNode => {
   };
 
   return (
-    <LoginLayout>
-      <Form form={form} labelCol={{ span: 5 }} style={{ marginTop: '40px' }} onFinish={onFinish}>
-        <Form.Item name="email" label="邮箱" rules={[{ required: true, message: '请输入邮箱' }]}>
-          <Input size="large" placeholder="邮箱" />
-        </Form.Item>
-        <Form.Item
-          name="password"
-          label="新密码"
-          rules={[{ required: true, message: '请输入新密码' }]}
+    <Form form={form} labelCol={{ span: 5 }} style={{ marginTop: '20px' }} onFinish={onFinish}>
+      <Form.Item name="email" label="邮箱" rules={[{ required: true, message: '请输入邮箱' }]}>
+        <Input size="large" placeholder="邮箱" />
+      </Form.Item>
+      <Form.Item
+        name="password"
+        label="新密码"
+        rules={[{ required: true, message: '请输入新密码' }]}
+      >
+        <Input.Password size="large" placeholder="新密码" />
+      </Form.Item>
+      <Form.Item
+        name="confirm_password"
+        label="确认密码"
+        rules={[
+          { required: true, message: '请输入确认密码' },
+          ({ getFieldValue }) => ({
+            validator(_, value) {
+              if (!value || getFieldValue('password') === value) {
+                return Promise.resolve();
+              }
+              return Promise.reject(new Error('两次输入的密码不一致'));
+            },
+          }),
+        ]}
+      >
+        <Input.Password size="large" placeholder="确认密码" />
+      </Form.Item>
+      <Form.Item
+        name="captcha"
+        label="验证码"
+        rules={[{ required: true, message: '请输入验证码' }]}
+      >
+        <Captcha onSend={onSend} isLoading={isUpdatePasswordCaptchaLoading} />
+      </Form.Item>
+      <Form.Item>
+        <Button
+          size="large"
+          style={{ width: '100%' }}
+          type="primary"
+          htmlType="submit"
+          loading={isLoading}
         >
-          <Input.Password size="large" placeholder="新密码" />
-        </Form.Item>
-        <Form.Item
-          name="confirm_password"
-          label="确认密码"
-          rules={[
-            { required: true, message: '请输入确认密码' },
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if (!value || getFieldValue('password') === value) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(new Error('两次输入的密码不一致'));
-              },
-            }),
-          ]}
-        >
-          <Input.Password size="large" placeholder="确认密码" />
-        </Form.Item>
-        <Form.Item
-          name="captcha"
-          label="验证码"
-          rules={[{ required: true, message: '请输入验证码' }]}
-        >
-          <Captcha onSend={onSend} isLoading={isUpdatePasswordCaptchaLoading} />
-        </Form.Item>
-        <Form.Item>
-          <Button
-            size="large"
-            style={{ width: '100%' }}
-            type="primary"
-            htmlType="submit"
-            loading={isLoading}
-          >
-            修改
-          </Button>
-        </Form.Item>
-      </Form>
-    </LoginLayout>
+          修改
+        </Button>
+      </Form.Item>
+    </Form>
   );
 };
 

@@ -2,25 +2,28 @@ import { RouterProvider, Routes, Route, Navigate, createBrowserRouter } from 're
 import ROUTERS, { type RouterItem } from './router';
 import { Suspense } from 'react';
 import { ConfigProvider, Spin } from 'antd';
-
+import { FullScreenLayout } from 'src/components/layout';
 const WithSubRoute = ({ route }: { route: RouterItem }) => {
+  const Layout = route.layout || FullScreenLayout;
   return (
-    <Suspense
-      fallback={
-        <Spin
-          size="large"
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: '100%',
-            height: '100%',
-          }}
-        />
-      }
-    >
-      <route.Component />
-    </Suspense>
+    <Layout>
+      <Suspense
+        fallback={
+          <Spin
+            size="large"
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
+              height: '100%',
+            }}
+          />
+        }
+      >
+        <route.Component />
+      </Suspense>
+    </Layout>
   );
 };
 
@@ -47,7 +50,7 @@ function App() {
       theme={{
         components: {
           Layout: {
-            bodyBg: '#ffffff',
+            bodyBg: '#f5f7fa',
           },
         },
       }}
