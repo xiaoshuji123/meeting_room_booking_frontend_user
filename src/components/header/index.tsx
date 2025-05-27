@@ -20,6 +20,8 @@ const Header = (): React.ReactNode => {
         navigate('/center');
         break;
       case 'logout':
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
         navigate('/login');
         break;
     }
@@ -29,7 +31,7 @@ const Header = (): React.ReactNode => {
       justify="space-between"
       gutter={20}
       align="middle"
-      style={{ height: 60, padding: '0 20px', backgroundColor: '#ffffff' }}
+      style={{ height: 60, margin: 0, padding: '0 20px', backgroundColor: '#ffffff' }}
     >
       <Col span={8}>
         <h1>会议室预定系统</h1>
