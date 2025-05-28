@@ -2,7 +2,7 @@ import { Button, Flex, Form, Input } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { useLoginMutation } from 'src/service/user';
 import { localStorage } from 'src/utils/storage';
-
+import { useNavigate } from 'react-router-dom';
 type LoginForm = {
   username: string;
   password: string;
@@ -10,6 +10,7 @@ type LoginForm = {
 
 const Login = (): React.ReactNode => {
   const [form] = Form.useForm<LoginForm>();
+  const navigate = useNavigate();
   const [login, { isLoading }] = useLoginMutation();
   const onFinish = (values: LoginForm) => {
     login(values)
@@ -17,6 +18,7 @@ const Login = (): React.ReactNode => {
       .then((res) => {
         localStorage.setItem('accessToken', res.accessToken);
         localStorage.setItem('refreshToken', res.refreshToken);
+        navigate('/meeting-room');
       });
   };
   return (
