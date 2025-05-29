@@ -1,15 +1,24 @@
+import { useNavigate } from 'react-router-dom';
+import { Image, Button } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 import PageSection from 'src/components/page-section';
 import RowInfo from 'src/components/row-info';
 import { useGetUserInfoQuery } from 'src/service/user';
-import { Image } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
 
 const UserCenter = (): React.ReactNode => {
   const { data } = useGetUserInfoQuery();
+  const navigate = useNavigate();
 
   return (
     <div style={{ margin: '60px auto', width: '1000px' }}>
-      <PageSection title="个人中心">
+      <PageSection
+        title="个人中心"
+        extra={
+          <Button variant="text" color="primary" onClick={() => navigate('/user-center/edit')}>
+            编辑
+          </Button>
+        }
+      >
         <RowInfo title="头像">
           <Image
             style={{ width: 80, height: 80 }}

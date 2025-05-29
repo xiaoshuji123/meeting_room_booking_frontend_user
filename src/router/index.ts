@@ -7,6 +7,7 @@ const Register = lazy(() => import('src/views/register'));
 const ForgetPassword = lazy(() => import('src/views/forget-password'));
 const Home = lazy(() => import('src/views/home'));
 const UserCenter = lazy(() => import('src/views/user-center'));
+const UserCenterEdit = lazy(() => import('src/views/user-center/edit'));
 
 export type RouterItem = {
   path: string;
@@ -38,6 +39,11 @@ const ROUTERS: RouterItem[] = [
   {
     path: '/user-center',
     Component: UserCenter,
+    layout: LayoutWithHeader,
+  },
+  {
+    path: '/user-center/edit',
+    Component: UserCenterEdit,
     layout: LayoutWithHeader,
   },
   {

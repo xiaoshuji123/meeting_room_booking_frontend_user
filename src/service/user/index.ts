@@ -79,6 +79,14 @@ const userApi = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+
+    uploadFile: builder.mutation<void, { file: string }>({
+      query: (data) => ({
+        url: '/user/upload',
+        method: 'POST',
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -93,4 +101,5 @@ export const {
   useRefreshTokenMutation,
   useUpdatePasswordMutation,
   useUpdateUserInfoMutation,
+  useUploadFileMutation,
 } = userApi;
