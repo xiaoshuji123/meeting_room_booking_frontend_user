@@ -3,7 +3,7 @@ export type LoginRequest = {
   password: string;
 };
 
-type UserInfo = {
+export type UserInfo = {
   id: number;
   username: string;
   nickName: string;
@@ -41,6 +41,7 @@ export type updatePasswordRequest = {
 export type updateUserInfoRequest = {
   nick_name: string;
   email: string;
+  phone: string;
   avatar: string;
   captcha: string;
 };

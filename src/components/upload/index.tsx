@@ -42,6 +42,7 @@ export default ({
     if (info.file.status === 'done') {
       setLoading(false);
       setImageUrl(info.file.response.data);
+      onChange?.(info.file.response.data);
     }
   };
 

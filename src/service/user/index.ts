@@ -36,6 +36,7 @@ const userApi = apiSlice.injectEndpoints({
         url: '/user/info',
         method: 'GET',
       }),
+      providesTags: ['UserInfo'],
     }),
     // mutation 是用于修改数据
     login: builder.mutation<LoginResponse, LoginRequest>({
@@ -74,10 +75,11 @@ const userApi = apiSlice.injectEndpoints({
 
     updateUserInfo: builder.mutation<void, updateUserInfoRequest>({
       query: (data) => ({
-        url: '/user/update-user-info',
+        url: '/user/update',
         method: 'POST',
         body: data,
       }),
+      invalidatesTags: ['UserInfo'],
     }),
 
     uploadFile: builder.mutation<void, { file: string }>({

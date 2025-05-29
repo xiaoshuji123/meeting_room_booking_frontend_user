@@ -20,21 +20,11 @@ const UserCenter = (): React.ReactNode => {
         }
       >
         <RowInfo title="头像">
-          <Image
-            style={{ width: 80, height: 80 }}
-            preview={{
-              toolbarRender: () => null,
-            }}
-            src={'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'}
-          />
-          {/* {data?.userInfo?.headPic ? (
-            <Image
-              style={{ width: 40, height: 40 }}
-              src={'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'}
-            />
+          {data?.userInfo?.headPic ? (
+            <Image style={{ width: 80, height: 80 }} src={data?.userInfo?.headPic} />
           ) : (
             <UserOutlined />
-          )} */}
+          )}
         </RowInfo>
         <RowInfo title="昵称">{data?.userInfo?.nickName}</RowInfo>
         <RowInfo title="用户名">{data?.userInfo?.username}</RowInfo>

@@ -53,8 +53,7 @@ const Header = (): React.ReactNode => {
           >
             {data?.userInfo?.headPic ? (
               <Image
-                style={{ borderRadius: 19 }}
-                width={38}
+                style={{ width: 38, height: 38, borderRadius: 19 }}
                 preview={false}
                 src={data?.userInfo?.headPic || ''}
               />

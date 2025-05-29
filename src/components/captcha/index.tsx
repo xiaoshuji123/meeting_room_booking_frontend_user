@@ -37,9 +37,9 @@ export default ({
           onChange={(e) => onChange?.(e.target.value)}
         />
       </Col>
-      <Col span={8}>
+      <Col span={8} style={{ textAlign: 'right' }}>
         <Button
-          style={{ width: '100%' }}
+          style={{ width: '100%', maxWidth: 120 }}
           size="large"
           type="primary"
           loading={isLoading}

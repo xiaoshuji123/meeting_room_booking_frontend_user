@@ -80,6 +80,7 @@ const customFetchBaseQuery: BaseQuery = async (args, api, extraOptions) => {
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: customFetchBaseQuery,
+  tagTypes: ['UserInfo'],
   endpoints: (build) => ({
     getUser: build.query<any, void>({
       query: () => '/user',
