@@ -31,14 +31,15 @@ const customFetchBaseQuery: BaseQuery = async (args, api, extraOptions) => {
           {
             url: '/user/refresh-token',
             method: 'GET',
-            body: { refreshToken },
+            params: { refreshToken },
           },
           api,
           extraOptions,
         );
-        if (refreshResult.data) {
+        const res = (refreshResult.data as any)?.data?.data;
+        if (res) {
           // 更新本地存储的token
-          const { accessToken, refreshToken: newRefreshToken } = refreshResult.data as any;
+          const { accessToken, refreshToken: newRefreshToken } = res;
           localStorage.setItem('accessToken', accessToken);
           localStorage.setItem('refreshToken', newRefreshToken);
           // 使用新token重试原请求
