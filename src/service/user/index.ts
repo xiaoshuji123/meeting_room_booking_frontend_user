@@ -31,11 +31,10 @@ const userApi = apiSlice.injectEndpoints({
         params: data,
       }),
     }),
-    getUserInfo: builder.query<UserInfoResponse, { userId: string }>({
-      query: (data) => ({
+    getUserInfo: builder.query<UserInfoResponse, void>({
+      query: () => ({
         url: '/user/info',
         method: 'GET',
-        params: data,
       }),
     }),
     // mutation 是用于修改数据
@@ -60,7 +59,7 @@ const userApi = apiSlice.injectEndpoints({
     >({
       query: (data) => ({
         url: '/user/refresh-token',
-        method: 'POST',
+        method: 'GET',
         body: data,
       }),
     }),

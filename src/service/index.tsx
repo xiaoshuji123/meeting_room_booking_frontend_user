@@ -5,10 +5,55 @@ import {
   FetchArgs,
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/query/react';
+import { localStorage } from 'src/utils/storage';
+
+const baseQuery = fetchBaseQuery({
+  baseUrl: '/api',
+  prepareHeaders: (headers) => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`);
+    }
+    return headers;
+  },
+});
 
 type BaseQuery = BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>;
 const customFetchBaseQuery: BaseQuery = async (args, api, extraOptions) => {
-  const result = await fetchBaseQuery({ baseUrl: '/api' })(args, api, extraOptions);
+  const result = await baseQuery(args, api, extraOptions);
+  // 如果返回401错误，说明token过期
+  if (result?.error?.status === 401) {
+    const refreshToken = localStorage.getItem('refreshToken');
+    if (refreshToken) {
+      try {
+        // 调用刷新token的接口
+        const refreshResult = await baseQuery(
+          {
+            url: '/user/refresh-token',
+            method: 'GET',
+            body: { refreshToken },
+          },
+          api,
+          extraOptions,
+        );
+        if (refreshResult.data) {
+          // 更新本地存储的token
+          const { accessToken, refreshToken: newRefreshToken } = refreshResult.data as any;
+          localStorage.setItem('accessToken', accessToken);
+          localStorage.setItem('refreshToken', newRefreshToken);
+          // 使用新token重试原请求
+          const retryResult = await baseQuery(args, api, extraOptions);
+          return retryResult;
+        }
+      } catch (error) {
+        // 如果刷新token失败，清除本地存储并跳转到登录页
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        window.location.href = '/login';
+      }
+    }
+  }
+
   const { data = {} as any, meta = {} } = result;
   if (result?.error) {
     return {
@@ -19,9 +64,11 @@ const customFetchBaseQuery: BaseQuery = async (args, api, extraOptions) => {
       },
     };
   }
+  console.log(data);
+
   return {
     data: {
-      ...data.data.data,
+      ...data.data,
     },
     meta: {
       ...meta,

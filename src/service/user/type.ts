@@ -32,6 +32,7 @@ export type RegisterRequest = {
 };
 
 export type updatePasswordRequest = {
+  username: string;
   email: string;
   captcha: string;
   new_password: string;

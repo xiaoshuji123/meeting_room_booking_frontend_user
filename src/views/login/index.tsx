@@ -15,9 +15,10 @@ const Login = (): React.ReactNode => {
   const onFinish = (values: LoginForm) => {
     login(values)
       .unwrap()
-      .then((res) => {
-        localStorage.setItem('accessToken', res.accessToken);
-        localStorage.setItem('refreshToken', res.refreshToken);
+      .then((res: any) => {
+        const { accessToken, refreshToken } = res.data;
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('refreshToken', refreshToken);
         navigate('/meeting-room');
       });
   };

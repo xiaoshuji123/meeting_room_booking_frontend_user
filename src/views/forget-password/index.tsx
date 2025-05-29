@@ -3,6 +3,7 @@ import { useLazyUpdatePasswordCaptchaQuery, useUpdatePasswordMutation } from 'sr
 import Captcha from 'src/components/captcha';
 import { useNavigate } from 'react-router-dom';
 type ForgetPasswordForm = {
+  username: string;
   email: string;
   password: string;
   confirm_password: string;
@@ -17,6 +18,7 @@ const Login = (): React.ReactNode => {
     useLazyUpdatePasswordCaptchaQuery();
   const onFinish = (values: ForgetPasswordForm) => {
     forgetPassword({
+      username: values.username,
       email: values.email,
       captcha: values.captcha,
       new_password: values.password,
@@ -46,6 +48,13 @@ const Login = (): React.ReactNode => {
 
   return (
     <Form form={form} labelCol={{ span: 5 }} style={{ marginTop: '20px' }} onFinish={onFinish}>
+      <Form.Item
+        name="username"
+        label="用户名"
+        rules={[{ required: true, message: '请输入用户名' }]}
+      >
+        <Input size="large" placeholder="用户名" />
+      </Form.Item>
       <Form.Item name="email" label="邮箱" rules={[{ required: true, message: '请输入邮箱' }]}>
         <Input size="large" placeholder="邮箱" />
       </Form.Item>

@@ -2,6 +2,7 @@ import { RouterProvider, Routes, Route, Navigate, createBrowserRouter } from 're
 import ROUTERS, { type RouterItem } from './router';
 import { Suspense } from 'react';
 import { ConfigProvider, Spin } from 'antd';
+import zhCN from 'antd/es/locale/zh_CN';
 import { FullScreenLayout } from 'src/components/layout';
 const WithSubRoute = ({ route }: { route: RouterItem }) => {
   const Layout = route.layout || FullScreenLayout;
@@ -47,6 +48,7 @@ const router = createBrowserRouter([{ path: '*', element: <Router /> }], {
 function App() {
   return (
     <ConfigProvider
+      locale={zhCN}
       theme={{
         components: {
           Layout: {

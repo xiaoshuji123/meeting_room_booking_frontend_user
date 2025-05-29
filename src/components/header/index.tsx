@@ -1,9 +1,11 @@
-import { Row, Col, Space, Dropdown } from 'antd';
+import { Row, Col, Space, Dropdown, Image } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import './index.module.less';
 import { useNavigate } from 'react-router-dom';
+import { useGetUserInfoQuery } from 'src/service/user';
 const Header = (): React.ReactNode => {
   const navigate = useNavigate();
+  const { data } = useGetUserInfoQuery();
   const menus = [
     {
       key: 'center',
@@ -17,7 +19,7 @@ const Header = (): React.ReactNode => {
   const handleMenuClick = (key: string) => {
     switch (key) {
       case 'center':
-        navigate('/center');
+        navigate('/user-center');
         break;
       case 'logout':
         localStorage.removeItem('accessToken');
@@ -34,11 +36,13 @@ const Header = (): React.ReactNode => {
       style={{ height: 60, margin: 0, padding: '0 20px', backgroundColor: '#ffffff' }}
     >
       <Col span={8}>
-        <h1>会议室预定系统</h1>
+        <h1 style={{ cursor: 'pointer' }} onClick={() => navigate('/meeting-room')}>
+          会议室预定系统
+        </h1>
       </Col>
       <Col span={8} style={{ textAlign: 'right' }}>
         <Space>
-          <span>xingming</span>
+          <span>{data?.userInfo?.nickName}</span>
           <Dropdown
             overlayClassName="header-dropdown"
             menu={{
@@ -47,7 +51,16 @@ const Header = (): React.ReactNode => {
             }}
             overlayStyle={{ padding: '10px 0' }}
           >
-            <UserOutlined style={{ fontSize: 22 }} />
+            {data?.userInfo?.headPic ? (
+              <Image
+                style={{ borderRadius: 19 }}
+                width={38}
+                preview={false}
+                src={data?.userInfo?.headPic || ''}
+              />
+            ) : (
+              <UserOutlined style={{ fontSize: 22 }} />
+            )}
           </Dropdown>
         </Space>
       </Col>
